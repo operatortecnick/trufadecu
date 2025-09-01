@@ -1,0 +1,9 @@
+{
+  "name": "ian-plugin-git-integration",
+  "version": "1.0.0",
+  "description": "Git integration plugin for Ian Agent",
+  "main": "index.js",
+  "keywords": ["ian-plugin", "git", "version-control"],
+  "author": "Ian Community",
+  "license": "MIT"
+}

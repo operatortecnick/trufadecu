@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  ian-agent:
+    build: .
+    container_name: ian-ai-agent
+    environment:
+      - NODE_ENV=production
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - GOOGLE_AI_API_KEY=${GOOGLE_AI_API_KEY}
+      - LOCAL_MODEL_ENDPOINT=${LOCAL_MODEL_ENDPOINT:-http://localhost:11434}
+    volumes:
+      - ./data:/home/ian/.ian
+      - ./projects:/app/projects
+    networks:
+      - ian-network
+    restart: unless-stopped
+
+  # Optional: Local AI model server (Ollama)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ian-ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - ian-network
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
+
+networks:
+  ian-network:
+    driver: bridge
