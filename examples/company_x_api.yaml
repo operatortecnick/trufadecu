@@ -1,0 +1,154 @@
+openapi: 3.0.3
+info:
+  title: Company X API
+  description: Original API from Company X that needs to be transformed
+  version: 2.1.0
+  contact:
+    name: Company X Support
+    email: support@company-x.com
+    url: https://company-x.com/support
+
+servers:
+  - url: https://api.company-x.com
+    description: Company X Production Server
+  - url: https://test-api.company-x.com
+    description: Company X Test Server
+
+paths:
+  /users:
+    get:
+      summary: List users
+      description: Retrieve a list of users from Company X system
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Internal server error
+
+    post:
+      summary: Create user
+      description: Create a new user in Company X system
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request
+
+  /users/{userId}:
+    get:
+      summary: Get user by ID
+      description: Retrieve a specific user by their ID
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+
+  /company-x/products:
+    get:
+      summary: List products
+      description: Get all products from Company X catalog
+      tags:
+        - Products
+      responses:
+        '200':
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        name:
+          type: string
+          example: "João Silva"
+        email:
+          type: string
+          format: email
+          example: "joao@example.com"
+        company_x_id:
+          type: string
+          example: "CX-12345"
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - email
+
+    CreateUser:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Maria Santos"
+        email:
+          type: string
+          format: email
+          example: "maria@example.com"
+      required:
+        - name
+        - email
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 456
+        name:
+          type: string
+          example: "Product A"
+        price:
+          type: number
+          format: float
+          example: 29.99
+        company_x_category:
+          type: string
+          example: "Electronics"
+      required:
+        - id
+        - name
+        - price
