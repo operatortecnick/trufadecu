@@ -1,0 +1,47 @@
+{
+  "name": "trufadecu",
+  "version": "1.0.0",
+  "description": "Autonomous AI Agent CLI - A powerful AI assistant inspired by Claude Code CLI and Gemini Gcloud CLI with support for customizable open-source models",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "ian": "./bin/ian.js",
+    "trufadecu": "./bin/ian.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test/test.js",
+    "lint": "eslint src/ --fix"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "cli",
+    "autonomous",
+    "openai",
+    "anthropic",
+    "gemini",
+    "claude",
+    "assistant",
+    "automation"
+  ],
+  "author": "TruFadeCu Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.60.0",
+    "@google/generative-ai": "^0.24.1",
+    "axios": "^1.11.0",
+    "chalk": "^5.6.0",
+    "commander": "^14.0.0",
+    "dotenv": "^17.2.1",
+    "fs-extra": "^11.3.1",
+    "glob": "^11.0.3",
+    "inquirer": "^12.9.4",
+    "node-fetch": "^3.3.2",
+    "openai": "^5.16.0"
+  }
+}
