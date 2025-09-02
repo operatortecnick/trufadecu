@@ -1,0 +1,60 @@
+{
+  "name": "trufadecu",
+  "version": "1.0.0",
+  "description": "Google Cloud Text-to-Speech Desktop Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron . --no-sandbox",
+    "build": "electron-builder",
+    "dist": "electron-builder --publish=never",
+    "pack": "electron-builder --dir",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "google-cloud",
+    "text-to-speech",
+    "tts",
+    "electron",
+    "desktop"
+  ],
+  "author": "operatortecnick",
+  "license": "MIT",
+  "build": {
+    "appId": "com.operatortecnick.trufadecu",
+    "productName": "TruFadeCU",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "index.html",
+      "styles.css",
+      "renderer.js",
+      "assets/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "dependencies": {
+    "@google-cloud/text-to-speech": "^6.3.0",
+    "electron": "^37.4.0",
+    "electron-builder": "^26.0.12"
+  }
+}
