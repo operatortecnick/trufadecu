@@ -1,0 +1,296 @@
+@page "/config"
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Configuration - TrufadecuTTS</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-gear-fill me-2"></i>
+                        Google Cloud Configuration
+                    </h3>
+                    <small>Configure your Google Cloud Text-to-Speech API credentials and settings</small>
+                </div>
+                <div class="card-body">
+                    
+                    <!-- API Key Configuration -->
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5 class="mb-0"><i class="bi bi-key-fill me-2"></i>API Credentials</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle-fill me-2"></i>
+                                        <strong>Setup Instructions:</strong>
+                                        <ol class="mb-0 mt-2">
+                                            <li>Go to the <a href="https://console.cloud.google.com/" target="_blank" class="alert-link">Google Cloud Console</a></li>
+                                            <li>Create a new project or select an existing one</li>
+                                            <li>Enable the Cloud Text-to-Speech API</li>
+                                            <li>Create a service account and download the JSON key file</li>
+                                            <li>Set the environment variable or upload the credentials below</li>
+                                        </ol>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="projectId" class="form-label fw-bold">Project ID</label>
+                                        <input type="text" @bind="projectId" class="form-control" id="projectId" 
+                                               placeholder="your-google-cloud-project-id">
+                                        <div class="form-text">Your Google Cloud Project ID</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="serviceAccountJson" class="form-label fw-bold">Service Account JSON</label>
+                                        <textarea @bind="serviceAccountJson" class="form-control font-monospace" 
+                                                  id="serviceAccountJson" rows="8" 
+                                                  placeholder="Paste your service account JSON key here..."></textarea>
+                                        <div class="form-text">
+                                            The JSON key file content from your Google Cloud service account
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-success" @onclick="SaveConfiguration">
+                                            <i class="bi bi-check-circle-fill me-2"></i>Save Configuration
+                                        </button>
+                                        <button class="btn btn-outline-primary" @onclick="TestConnection">
+                                            <i class="bi bi-lightning-fill me-2"></i>Test Connection
+                                        </button>
+                                        <button class="btn btn-outline-danger" @onclick="ClearConfiguration">
+                                            <i class="bi bi-trash3-fill me-2"></i>Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Server Implementation Guide -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0"><i class="bi bi-server me-2"></i>Server Implementation Guide</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="alert alert-warning">
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                        <strong>Note:</strong> This is a client-side application. To fully use Google Cloud TTS, 
+                                        you need a server-side implementation that securely handles API credentials.
+                                    </div>
+
+                                    <h6>Server Implementation Options:</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card bg-light">
+                                                <div class="card-body">
+                                                    <h6><i class="bi bi-microsoft me-2"></i>ASP.NET Core</h6>
+                                                    <p class="small mb-2">Create a Web API that:</p>
+                                                    <ul class="small">
+                                                        <li>Accepts TTS requests</li>
+                                                        <li>Calls Google Cloud TTS API</li>
+                                                        <li>Returns audio data</li>
+                                                    </ul>
+                                                    <code class="small">dotnet new webapi</code>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card bg-light">
+                                                <div class="card-body">
+                                                    <h6><i class="bi bi-cloud-fill me-2"></i>Cloud Functions</h6>
+                                                    <p class="small mb-2">Deploy serverless function:</p>
+                                                    <ul class="small">
+                                                        <li>Google Cloud Functions</li>
+                                                        <li>Azure Functions</li>
+                                                        <li>AWS Lambda</li>
+                                                    </ul>
+                                                    <code class="small">gcloud functions deploy</code>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <h6>Sample Server Endpoint:</h6>
+                                        <pre class="bg-dark text-light p-3 rounded"><code>POST /api/tts/synthesize
+Content-Type: application/json
+
+{
+  "text": "Hello world!",
+  "languageCode": "en-US",
+  "voiceName": "en-US-Neural2-A",
+  "audioEncoding": "MP3",
+  "speakingRate": 1.0,
+  "pitch": 0.0,
+  "volumeGainDb": 0.0
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Setup -->
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0"><i class="bi bi-rocket-takeoff-fill me-2"></i>Quick Setup</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group list-group-flush">
+                                        <div class="list-group-item d-flex align-items-center">
+                                            <span class="badge bg-primary rounded-pill me-3">1</span>
+                                            <div>
+                                                <h6 class="mb-1">Enable API</h6>
+                                                <small>Cloud Text-to-Speech API</small>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item d-flex align-items-center">
+                                            <span class="badge bg-primary rounded-pill me-3">2</span>
+                                            <div>
+                                                <h6 class="mb-1">Create Credentials</h6>
+                                                <small>Service Account Key</small>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item d-flex align-items-center">
+                                            <span class="badge bg-primary rounded-pill me-3">3</span>
+                                            <div>
+                                                <h6 class="mb-1">Deploy Server</h6>
+                                                <small>API Backend</small>
+                                            </div>
+                                        </div>
+                                        <div class="list-group-item d-flex align-items-center">
+                                            <span class="badge bg-success rounded-pill me-3">✓</span>
+                                            <div>
+                                                <h6 class="mb-1">Start Using</h6>
+                                                <small>Text-to-Speech</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pricing Info -->
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0"><i class="bi bi-currency-dollar me-2"></i>Pricing Information</h6>
+                                </div>
+                                <div class="card-body">
+                                    <small>
+                                        <strong>Standard Voices:</strong><br>
+                                        $4.00 per 1M characters<br><br>
+                                        
+                                        <strong>WaveNet Voices:</strong><br>
+                                        $16.00 per 1M characters<br><br>
+                                        
+                                        <strong>Neural2 Voices:</strong><br>
+                                        $16.00 per 1M characters<br><br>
+                                        
+                                        <em>First 1M characters free per month</em>
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Links -->
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0"><i class="bi bi-link-45deg me-2"></i>Useful Links</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2">
+                                        <a href="https://cloud.google.com/text-to-speech" 
+                                           target="_blank" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-cloud me-1"></i>Cloud TTS Home
+                                        </a>
+                                        <a href="https://cloud.google.com/text-to-speech/docs" 
+                                           target="_blank" class="btn btn-outline-info btn-sm">
+                                            <i class="bi bi-book me-1"></i>Documentation
+                                        </a>
+                                        <a href="https://console.cloud.google.com/" 
+                                           target="_blank" class="btn btn-outline-success btn-sm">
+                                            <i class="bi bi-gear me-1"></i>Google Cloud Console
+                                        </a>
+                                        <a href="https://cloud.google.com/text-to-speech/pricing" 
+                                           target="_blank" class="btn btn-outline-warning btn-sm">
+                                            <i class="bi bi-currency-dollar me-1"></i>Pricing Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string projectId = string.Empty;
+    private string serviceAccountJson = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load saved configuration from localStorage if available
+        await LoadConfiguration();
+    }
+
+    private async Task SaveConfiguration()
+    {
+        try
+        {
+            // In a real implementation, you would save this to localStorage or send to server
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "gcp-project-id", projectId);
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "gcp-service-account", serviceAccountJson);
+            
+            await JSRuntime.InvokeVoidAsync("alert", "Configuration saved successfully!");
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Error saving configuration: {ex.Message}");
+        }
+    }
+
+    private async Task LoadConfiguration()
+    {
+        try
+        {
+            projectId = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "gcp-project-id") ?? string.Empty;
+            serviceAccountJson = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "gcp-service-account") ?? string.Empty;
+        }
+        catch
+        {
+            // Ignore errors when localStorage is not available
+        }
+    }
+
+    private async Task ClearConfiguration()
+    {
+        projectId = string.Empty;
+        serviceAccountJson = string.Empty;
+        
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "gcp-project-id");
+            await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "gcp-service-account");
+            await JSRuntime.InvokeVoidAsync("alert", "Configuration cleared!");
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Error clearing configuration: {ex.Message}");
+        }
+    }
+
+    private async Task TestConnection()
+    {
+        if (string.IsNullOrWhiteSpace(projectId) || string.IsNullOrWhiteSpace(serviceAccountJson))
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Please provide both Project ID and Service Account JSON.");
+            return;
+        }
+
+        await JSRuntime.InvokeVoidAsync("alert", 
+            "Connection test requires server-side implementation. " +
+            "This interface provides all the configuration options you need for Google Cloud TTS integration.");
+    }
+}
