@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruFadeCU - Google Cloud Text-to-Speech</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 TruFadeCU</h1>
+            <p>Google Cloud Text-to-Speech Interface</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Credentials Section -->
+            <section class="credentials-section">
+                <div class="card">
+                    <h3>📁 Google Cloud Credentials</h3>
+                    <button id="load-credentials" class="btn btn-primary">Load Service Account Key</button>
+                    <div id="credentials-status" class="status"></div>
+                </div>
+            </section>
+
+            <!-- Text Input Section -->
+            <section class="text-section">
+                <div class="card">
+                    <h3>📝 Text to Speech</h3>
+                    <textarea 
+                        id="text-input" 
+                        placeholder="Enter the text you want to convert to speech..."
+                        maxlength="5000"
+                    ></textarea>
+                    <div class="char-counter">
+                        <span id="char-count">0</span>/5000 characters
+                    </div>
+                </div>
+            </section>
+
+            <!-- Voice Configuration Section -->
+            <section class="voice-config">
+                <div class="card">
+                    <h3>🎤 Voice Configuration</h3>
+                    <div class="config-grid">
+                        <div class="config-item">
+                            <label for="language-select">Language:</label>
+                            <select id="language-select">
+                                <option value="en-US">English (US)</option>
+                                <option value="en-GB">English (UK)</option>
+                                <option value="es-ES">Spanish (Spain)</option>
+                                <option value="es-US">Spanish (US)</option>
+                                <option value="fr-FR">French (France)</option>
+                                <option value="de-DE">German (Germany)</option>
+                                <option value="it-IT">Italian (Italy)</option>
+                                <option value="pt-BR">Portuguese (Brazil)</option>
+                                <option value="ja-JP">Japanese (Japan)</option>
+                                <option value="ko-KR">Korean (South Korea)</option>
+                                <option value="zh-CN">Chinese (Simplified)</option>
+                                <option value="zh-TW">Chinese (Traditional)</option>
+                            </select>
+                        </div>
+
+                        <div class="config-item">
+                            <label for="voice-name">Voice:</label>
+                            <select id="voice-name">
+                                <option value="en-US-Wavenet-D">en-US-Wavenet-D (Male)</option>
+                                <option value="en-US-Wavenet-F">en-US-Wavenet-F (Female)</option>
+                                <option value="en-US-Neural2-A">en-US-Neural2-A (Male)</option>
+                                <option value="en-US-Neural2-C">en-US-Neural2-C (Female)</option>
+                            </select>
+                        </div>
+
+                        <div class="config-item">
+                            <label for="audio-format">Audio Format:</label>
+                            <select id="audio-format">
+                                <option value="MP3">MP3</option>
+                                <option value="WAV">WAV</option>
+                                <option value="OGG_OPUS">OGG Opus</option>
+                            </select>
+                        </div>
+
+                        <div class="config-item">
+                            <label for="speed-control">Speed: <span id="speed-value">1.0</span>x</label>
+                            <input type="range" id="speed-control" min="0.25" max="4.0" step="0.25" value="1.0">
+                        </div>
+
+                        <div class="config-item">
+                            <label for="pitch-control">Pitch: <span id="pitch-value">0</span>st</label>
+                            <input type="range" id="pitch-control" min="-20" max="20" step="1" value="0">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Controls Section -->
+            <section class="controls-section">
+                <div class="card">
+                    <h3>🎮 Controls</h3>
+                    <div class="controls-grid">
+                        <button id="generate-speech" class="btn btn-success" disabled>
+                            🔊 Generate Speech
+                        </button>
+                        <button id="play-audio" class="btn btn-info" disabled>
+                            ▶️ Play Audio
+                        </button>
+                        <button id="stop-audio" class="btn btn-warning" disabled>
+                            ⏹️ Stop Audio
+                        </button>
+                        <button id="save-audio" class="btn btn-secondary" disabled>
+                            💾 Save Audio
+                        </button>
+                    </div>
+                    <div id="generation-status" class="status"></div>
+                </div>
+            </section>
+
+            <!-- Audio Preview Section -->
+            <section class="audio-section">
+                <div class="card">
+                    <h3>🎵 Audio Preview</h3>
+                    <audio id="audio-player" controls style="width: 100%; display: none;">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <div id="audio-info" class="audio-info"></div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>Built with ❤️ using Google Cloud Text-to-Speech API</p>
+        </footer>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>
